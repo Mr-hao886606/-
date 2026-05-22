@@ -1,0 +1,25 @@
+# ========== 前端 ==========
+node_modules/
+dist/
+.vite/
+
+# ========== 后端 ==========
+target/
+*.class
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+*.log
+
+# ========== 上传文件 ==========
+uploads/
+
+# ========== IDE ==========
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# ========== 系统 ==========
+.DS_Store
+Thumbs.db
