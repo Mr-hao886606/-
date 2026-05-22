@@ -1,0 +1,63 @@
+# ============================================
+# 校园食堂网站 - Docker Compose 一键部署
+# 
+# 使用方法:
+#   1. 修改下方 MYSQL_ROOT_PASSWORD
+#   2. 运行: docker-compose up -d
+#   3. 访问: http://你的服务器IP
+# ============================================
+
+version: '3.8'
+
+services:
+  # ========== MySQL 数据库 ==========
+  mysql:
+    image: mysql:8.0
+    container_name: canteen-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: your_password_here     # ⚠️ 请修改密码
+      MYSQL_DATABASE: canteen
+      TZ: Asia/Shanghai
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # ========== SpringBoot 后端 ==========
+  backend:
+    build: ./canteen-backend
+    container_name: canteen-backend
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/canteen?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: your_password_here   # ⚠️ 与上方密码一致
+      TZ: Asia/Shanghai
+    ports:
+      - "8080:8080"
+    volumes:
+      - uploads_data:/app/uploads
+
+  # ========== Vue 前端 (Nginx) ==========
+  frontend:
+    build: ./canteen-frontend
+    container_name: canteen-frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+volumes:
+  mysql_data:
+  uploads_data:
