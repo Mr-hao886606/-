@@ -1,0 +1,24 @@
+# ============================================
+# MySQL 数据库配置
+# 首次使用步骤：
+#   1. 安装 MySQL 并创建数据库：
+#      CREATE DATABASE canteen DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+#   2. 修改下方 username/password 为你的 MySQL 账号密码
+#   3. 首次启动时将 sql.init.mode 改为 always（自动建表+导入数据）
+#   4. 后续启动改回 never（避免重复初始化）
+# ============================================
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/canteen?useUnicode=true&characterEncoding=utf8mb4&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+  sql:
+    init:
+      mode: never           # 首次启动改为 always，后续改回 never
+      encoding: UTF-8
+      schema-locations: classpath:db/schema-mysql.sql
+      data-locations: classpath:db/data-mysql.sql
