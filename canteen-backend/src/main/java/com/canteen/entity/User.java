@@ -8,7 +8,7 @@ import java.util.Date;
  * 用户实体
  */
 @Data
-@TableName("user")
+@TableName("users")
 public class User {
     @TableId(type = IdType.AUTO)
     private Long id;

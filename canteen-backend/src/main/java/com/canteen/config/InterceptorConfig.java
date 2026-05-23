@@ -24,10 +24,13 @@ public class InterceptorConfig implements WebMvcConfigurer {
                         "/user/resetPass",
                         "/dish/list",
                         "/dish/info/**",
+                        "/dish/hot",
                         "/foodCategory/list",
                         "/restaurant/list",
                         "/news/**",
                         "/banner/list",
+                        "/coupon/list",
+                        "/review/list/**",
                         "/uploads/**",
                         "/error"
                 );

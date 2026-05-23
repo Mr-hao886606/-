@@ -1,19 +1,11 @@
+# ============================================
+# H2 内存数据库配置（免安装MySQL快速启动）
+# 启动命令: mvnw spring-boot:run
+# ============================================
 server:
   port: 8080
-  servlet:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
 
 spring:
-  profiles:
-    active: h2    # 默认使用H2内存数据库，无需安装MySQL
-  http:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:canteen;DB_CLOSE_DELAY=-1;MODE=MySQL
@@ -26,7 +18,6 @@ spring:
   sql:
     init:
       mode: always
-      encoding: UTF-8
       schema-locations: classpath:db/schema-h2.sql
       data-locations: classpath:db/data-h2.sql
   jackson:
@@ -40,19 +31,13 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  global-config:
-    db-config:
-      id-type: auto
-      logic-delete-field: deleted
-      logic-delete-value: 1
-      logic-not-delete-value: 0
 
 # JWT配置
 jwt:
   secret: canteen-jwt-secret-key-2024-campus-food-system
-  expiration: 86400000  # 24小时 (毫秒)
+  expiration: 86400000
 
-# 文件上传配置
+# 文件上传
 file:
   upload:
     path: ./uploads/
